@@ -34,7 +34,7 @@ def connect_db():
 
 app = Flask(__name__)
 
-@app.route('/imoveis', methods=['GET'])
+@app.route('/', methods=['GET'])
 def get_imoveis():
 
     # Conecta o banco de dados
@@ -48,7 +48,7 @@ def get_imoveis():
     cursor = conn.cursor()
 
     # Executa a query para buscar todos os imóveis
-    sql = "SELECT * from imoveis.imoveis"
+    sql = "SELECT * from imoveis"
     cursor.execute(sql)
 
     # Obtém os resultados da query
