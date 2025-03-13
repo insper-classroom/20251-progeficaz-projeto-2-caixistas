@@ -34,7 +34,7 @@ def connect_db():
 
 app = Flask(__name__)
 
-@app.route('/imoveis', methods=['GET'])
+@app.route('/', methods=['GET'])
 def get_imoveis():
 
     # Conecta o banco de dados
