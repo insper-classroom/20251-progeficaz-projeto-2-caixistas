@@ -75,6 +75,51 @@ def get_imoveis():
         resp = {"imovel": imoveis}
         return resp, 200
 
+@app.route('/<int:id>', methods=['GET'])
+def get_imoveis_id(id):
+
+    # Conecta o banco de dados
+    conn = connect_db()
+
+    # Se não conseguiu conectar, retorna um erro 500
+    if conn is None:
+        resp = {"erro": "Erro ao conectar ao banco de dados"}
+        return resp, 500
+
+    cursor = conn.cursor()
+
+    # Executa a query para buscar o id do imovel
+    sql = f"SELECT * from imoveis where id = {id}"
+    cursor.execute(sql)
+
+    # Obtém os resultados da query
+    results = cursor.fetchall()
+
+    if not results:
+        resp = {"erro": "Nenhum imóvel encontrado"}
+        return resp, 404
+    else:
+        imoveis = []
+        for imovel in results:
+            if imovel[0] == id:
+                imovel_dict = {
+                    "id": imovel[0],
+                    "logradouro": imovel[1],
+                    "tipo_logradouro": imovel[2],
+                    "bairro": imovel[3],
+                    "cidade": imovel[4],
+                    "cep": imovel[5],
+                    "tipo": imovel[6],
+                    "valor": imovel[7],
+                    "data_aquisicao": imovel[8],
+                }
+                imoveis.append(imovel_dict)
+        if not imoveis:
+            resp = {'erro': 'imóvel não encontrado'}
+            return resp, 404
+        else:
+            resp = {"imovel": imoveis}
+            return resp, 200
 
 if __name__ == '__main__':
     app.run(debug=True)
