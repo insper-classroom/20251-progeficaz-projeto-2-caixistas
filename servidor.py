@@ -17,7 +17,6 @@ config = {
     'ssl_ca': os.getenv('SSL_CA_PATH')  # Caminho para o certificado SSL
 }
 
-
 # Função para conectar ao banco de dados
 def connect_db():
     """Estabelece a conexão com o banco de dados usando as configurações fornecidas."""
@@ -34,7 +33,7 @@ def connect_db():
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET'])
+@app.route('/imoveis', methods=['GET'])
 def get_imoveis():
 
     # Conecta o banco de dados
@@ -75,7 +74,7 @@ def get_imoveis():
         resp = {"imovel": imoveis}
         return resp, 200
 
-@app.route('/delete/<int:id>', methods=['DELETE'])
+@app.route('/imoveis/delete/<int:id>', methods=['DELETE'])
 def delete_imovel(id):
 
     # Conecta o banco de dados
@@ -89,7 +88,7 @@ def delete_imovel(id):
     cursor = conn.cursor()
 
     # Deletar o imóvel
-    cursor.execute("DELETE FROM imoveis.imoveis WHERE id = %s", (id,))
+    cursor.execute("DELETE FROM imoveis WHERE id = %s", (id,))
     conn.commit()
 
     if conn.is_connected():
@@ -100,7 +99,7 @@ def delete_imovel(id):
 
     return resp, 200
 
-@app.route('/<int:id>', methods=['GET']) #devemos passar o que queremos acessar na rota, nesse caso o id 
+@app.route('/imoveis/<int:id>', methods=['GET']) #devemos passar o que queremos acessar na rota, nesse caso o id 
 def get_imoveis_id(id):
 
     conn = connect_db()
@@ -140,7 +139,7 @@ def get_imoveis_id(id):
             resp = {"imovel": imoveis}
             return resp, 200
         
-@app.route('/<string:tipo>', methods=['GET']) #precisa passar o que queremos na rota, que nesse caso é o tipo do imovel
+@app.route('/imoveis/<string:tipo>', methods=['GET']) #precisa passar o que queremos na rota, que nesse caso é o tipo do imovel
 def get_imoveis_tipo(tipo):
 
     # Conecta o banco de dados

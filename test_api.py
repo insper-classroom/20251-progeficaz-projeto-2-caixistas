@@ -28,7 +28,7 @@ def test_get_imoveis(mock_connect_db, imovel):
     mock_connect_db.return_value = mock_conn
 
     # Faz a requisição GET para a API na rota /imoveis
-    response = imovel.get("/")
+    response = imovel.get("/imoveis")
 
     # Vendo se o status da resposta é 200
     assert response.status_code == 200
@@ -68,7 +68,7 @@ def test_delete_imovel(mock_connect_db, imovel):
     mock_connect_db.return_value = mock_conn
 
     # Faz a requisição DELETE
-    response = imovel.delete("/delete/1")
+    response = imovel.delete("/imoveis/delete/1")
     
     assert response.status_code == 200
     
@@ -106,7 +106,7 @@ def test_get_imoveis_id(mock_connect_db, imovel):
     mock_connect_db.return_value = mock_conn
 
     # Faz a requisição GET para a API na rota /id
-    response = imovel.get("/1")
+    response = imovel.get("/imoveis/1")
 
     # Vendo se o status da resposta é 200
     assert response.status_code == 200
@@ -146,7 +146,7 @@ def test_get_imoveis_tipo(mock_connect_db, imovel):
     mock_connect_db.return_value = mock_conn
 
     # Faz a requisição GET para a API na rota /
-    response = imovel.get("/casa")
+    response = imovel.get("/imoveis/casa")
 
     # Vendo se o status da resposta é 200
     assert response.status_code == 200
