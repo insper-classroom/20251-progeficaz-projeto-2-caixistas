@@ -186,7 +186,7 @@ def test_get_imoveis_cidade(mock_connect_db, imovel):
     mock_connect_db.return_value = mock_conn
 
     # Faz a requisição GET para a API na rota /cidade
-    response = imovel.get("/imoveis/Bofete")
+    response = imovel.get("/imoveis/São José do Rio Preto")
 
     # Vendo se o status da resposta é 200
     assert response.status_code == 200
@@ -194,7 +194,7 @@ def test_get_imoveis_cidade(mock_connect_db, imovel):
     # Respostas esperadas
     expected_response = {
         "imovel": [
-            {"id": 1, "logradouro": "Vereador", "tipo_logradouro": "Rua", "bairro": "Centro", "cidade": "Bofete", "cep": "18590-000", "tipo": "casa", "valor": 50000, "data_aquisicao": "2025-03-11"},
+            {"id": 2, "logradouro": "Miguel Damha", "tipo_logradouro": "Avenida", "bairro": "Damha", "cidade": "São José do Rio Preto", "cep": "15061-800", "tipo": "casa em condominio", "valor": 50000, "data_aquisicao": "2025-03-11"},
         ]
     } 
 
