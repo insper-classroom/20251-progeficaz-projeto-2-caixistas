@@ -170,17 +170,17 @@ def test_atualiza_imovel(mock_connect_db, imovel):
     # O mock retorna o cursor quando chamamos o conn.cursor()
     mock_conn.cursor.return_value = mock_cursor
 
-    # Simulação do banco de dados
-    mock_cursor.fetchall.return_value = [
-        (1, "Vereador", "Rua", "Centro", "Bofete", "18590-000", "casa", 50000, "2025-03-11"),
-        (2, "Miguel Damha", "Avenida", "Damha", "São José do Rio Preto", "15061-800", "casa em condominio", 50000, "2025-03-11"),
+    # Simulação do banco de dados para verificar se o imóvel existe
+    mock_cursor.fetchall.side_effect = [
+        [(1, "Vereador", "Rua", "Centro", "Bofete", "18590-000", "casa", 50000, "2025-03-11")],  # Imóvel existe
+        []  # Após atualização, não precisa retornar nada
     ]
 
-    #Chama a conexão do Mock ao invés da conexão real
+    # Mock da conexão
     mock_connect_db.return_value = mock_conn
 
-    # Faz a requisição GET para a API na rota /
-    response = imovel.get("/imoveis/atualiza/1/tipo/apartamento")
+    # Faz a requisição PUT para a API na rota /imoveis/atualiza/1/tipo/apartamento
+    response = imovel.put("/imoveis/atualiza/1/tipo/apartamento")
 
     # Vendo se o status da resposta é 200
     assert response.status_code == 200
