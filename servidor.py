@@ -89,7 +89,7 @@ def delete_imovel(id):
     cursor = conn.cursor()
 
     # Deletar o imóvel
-    cursor.execute("DELETE FROM imoveis.imoveis WHERE id = %s", (id,))
+    cursor.execute("DELETE FROM imoveis WHERE id = %s", (id,))
     conn.commit()
 
     if conn.is_connected():
