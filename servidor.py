@@ -205,7 +205,7 @@ def atualiza_imovel(id, coluna, alteracao):
     # Obtém os resultados da query
     results = cursor.fetchall()
 
-    # Erro 404 para caso o imóvel não seja encontrado
+        # Erro 404 para caso o imóvel não seja encontrado
     if not results:
         resp = {"erro": "Nenhum imóvel encontrado"}
         return resp, 404
@@ -227,6 +227,50 @@ def atualiza_imovel(id, coluna, alteracao):
             conn.close()
 
         resp = {'mensagem': 'Imóvel atualizado com sucesso.'}
+
+@app.route('/imoveis/<string:cidade>', methods=['GET']) #precisa passar o que queremos na rota, que nesse caso é a cidade do imovel
+def get_imoveis_cidade(cidade):
+
+    # Conecta o banco de dados
+    conn = connect_db()
+
+    # Se não conseguiu conectar, retorna um erro 500
+    if conn is None:
+        resp = {"erro": "Erro ao conectar ao banco de dados"}
+        return resp, 500
+
+    cursor = conn.cursor()
+
+    # Executa a query para buscar o tipo do imovel
+    sql = f"SELECT * from imoveis where cidade = %s"
+    cursor.execute(sql, (cidade,))
+
+    # Obtém os resultados da query
+    results = cursor.fetchall()
+
+    if not results:
+        resp = {"erro": "Nenhum imóvel encontrado"}
+        return resp, 404
+    
+    imoveis = []
+    for imovel in results:
+        imovel_dict = {
+            "id": imovel[0],
+            "logradouro": imovel[1],
+            "tipo_logradouro": imovel[2],
+            "bairro": imovel[3],
+            "cidade": imovel[4],
+            "cep": imovel[5],
+            "tipo": imovel[6],
+            "valor": imovel[7],
+            "data_aquisicao": imovel[8],
+        }
+        imoveis.append(imovel_dict)
+    if not imoveis:
+        resp = {'erro': 'imóvel não encontrado'}
+        return resp, 404
+    else:
+        resp = {"imovel": imoveis}
         return resp, 200
 
 if __name__ == '__main__':
