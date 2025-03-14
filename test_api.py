@@ -167,6 +167,9 @@ def test_atualiza_imovel(mock_connect_db, imovel):
     mock_conn = MagicMock()
     mock_cursor = MagicMock()
 
+    # O mock retorna o cursor quando chamamos o conn.cursor()
+    mock_conn.cursor.return_value = mock_cursor
+
     # Simulação do banco de dados para verificar se o imóvel existe
     mock_cursor.fetchall.side_effect = [
         [(1, "Vereador", "Rua", "Centro", "Bofete", "18590-000", "casa", 50000, "2025-03-11")],  # Imóvel existe
@@ -179,6 +182,10 @@ def test_atualiza_imovel(mock_connect_db, imovel):
     # Faz a requisição PUT para a API na rota /imoveis/atualiza/1/tipo/apartamento
     response = imovel.put("/imoveis/atualiza/1/tipo/apartamento")
 
+    # Vendo se o status da resposta é 200
+    assert response.status_code == 200
+
+    # Respostas esperadas
     expected_response = {
         'mensagem': 'Imóvel atualizado com sucesso.'
     }

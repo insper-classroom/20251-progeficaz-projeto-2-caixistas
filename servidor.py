@@ -199,7 +199,7 @@ def atualiza_imovel(id, coluna, alteracao):
     cursor = conn.cursor()
 
     # Executa a query para verificar se este imóvel realmente existe
-    sql = "SELECT * from imoveis.imoveis where id = %s"
+    sql= "SELECT * from imoveis.imoveis where id = %s"
     cursor.execute(sql, (id,))
 
     # Obtém os resultados da query
