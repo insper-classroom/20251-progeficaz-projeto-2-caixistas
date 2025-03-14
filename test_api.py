@@ -61,10 +61,6 @@ def test_delete_imovel(mock_connect_db, imovel):
         [
             (1, "Vereador", "Rua", "Centro", "Bofete", "18590-000", "casa", 50000, "2025-03-11"),
             (2, "Miguel Damha", "Avenida", "Damha", "São José do Rio Preto", "15061-800", "casa em condominio", 50000, "2025-03-11"),
-        ],
-        # Após a exclusão
-        [
-            (2, "Miguel Damha", "Avenida", "Damha", "São José do Rio Preto", "15061-800", "casa em condominio", 50000, "2025-03-11")
         ]
     ]
 
