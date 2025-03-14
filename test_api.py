@@ -120,6 +120,6 @@ def test_get_imoveis_tipo(mock_connect_db, imovel):
         "imovel": [
             {"id": 1, "logradouro": "Vereador", "tipo_logradouro": "Rua", "bairro": "Centro", "cidade": "Bofete", "cep": "18590-000", "tipo": "casa", "valor": 50000, "data_aquisicao": "2025-03-11"},
         ]
-    }
+    } 
 
     assert response.get_json() == expected_response
