@@ -75,6 +75,30 @@ def get_imoveis():
         resp = {"imovel": imoveis}
         return resp, 200
 
+@app.route('/delete/<int:id>', methods=['DELETE'])
+def delete_imovel(id):
+
+    # Conecta o banco de dados
+    conn = connect_db()
+
+    # Se não conseguiu conectar, retorna um erro 500
+    if conn is None:
+        resp = {"erro": "Erro ao conectar ao banco de dados"}
+        return resp, 500
+
+    cursor = conn.cursor()
+
+    # Deletar o imóvel
+    cursor.execute("DELETE FROM imoveis.imoveis WHERE id = %s", (id,))
+    conn.commit()
+
+    if conn.is_connected():
+            cursor.close()
+            conn.close()
+
+    resp = {'mensagem': 'Imóvel removido com sucesso.'}
+
+    return resp, 200
 
 if __name__ == '__main__':
     app.run(debug=True)
