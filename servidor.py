@@ -73,6 +73,22 @@ def get_imoveis():
         resp = {"imovel": imoveis}
         return resp, 200
 
+@app.route('/imoveis', methods=['POST'])
+def post_imoveis():
+    # Conecta o banco de dados
+    conn = connect_db()
+
+    cursor = conn.cursor()
+
+    dados = request.json
+    sql = "INSERT INTO imoveis(logradouro, tipo_logradouro, bairro, cidade, cep, tipo, valor, data_aquisicao) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+    valores = dados["logradouro"], dados["tipo_logradouro"], dados["bairro"], dados["cidade"], dados["cep"], dados["tipo"], dados["valor"], dados["data_aquisicao"]
+
+    cursor.execute(sql, valores)
+    conn.commit()
+
+    return jsonify({"mensagem": "imovel adicionado com sucesso"}), 200
+
 @app.route('/imoveis/delete/<int:id>', methods=['DELETE'])
 def delete_imovel(id):
 

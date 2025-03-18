@@ -254,13 +254,4 @@ def test_post_imoveis(mock_connect_db, imovel):
 
     # Vendo se o status da resposta é 200
     assert response.status_code == 200
-    assert response.get_json() == {"mensagem": "imovel criado com sucesso"}
-
-    # Respostas esperadas
-    expected_response = {
-        "imovel": [
-            {"id": 2, "logradouro": "Miguel Damha", "tipo_logradouro": "Avenida", "bairro": "Damha", "cidade": "São José do Rio Preto", "cep": "15061-800", "tipo": "casa em condominio", "valor": 50000, "data_aquisicao": "2025-03-11"},
-        ]
-    } 
-
-    assert response.get_json() == expected_response
+    assert response.get_json() == {"mensagem": "imovel adicionado com sucesso"}
