@@ -230,3 +230,37 @@ def test_get_imoveis_cidade(mock_connect_db, imovel):
     } 
 
     assert response.get_json() == expected_response
+
+@pytest.fixture
+def adiciona_imovel():
+    app.config["TESTING"] = True
+    with app.test_client() as imovel:
+        yield imovel
+    
+@patch("servidor.connect_db")
+def test_post_imoveis(mock_connect_db, imovel):
+
+    # Criação do Mock para a conexão e cursor
+    mock_conn = MagicMock()
+    mock_cursor = MagicMock()
+
+    # O mock retorna o cursor quando chamamos o conn.cursor()
+    mock_conn.cursor.return_value = mock_cursor
+    #Chama a conexão do Mock ao invés da conexão real
+    mock_connect_db.return_value = mock_conn
+ 
+    # Simulação do banco de dados
+    response = imovel.post('/imoveis', json={"logradouro": "Miguel Damha", "tipo_logradouro": "Avenida", "bairro": "Damha", "cidade": "São José do Rio Preto", "cep": "15061-800", "tipo": "casa em condominio", "valor": 50000, "data_aquisicao": "2025-03-11"})
+
+    # Vendo se o status da resposta é 200
+    assert response.status_code == 200
+    assert response.get_json() == {"mensagem": "imovel criado com sucesso"}
+
+    # Respostas esperadas
+    expected_response = {
+        "imovel": [
+            {"id": 2, "logradouro": "Miguel Damha", "tipo_logradouro": "Avenida", "bairro": "Damha", "cidade": "São José do Rio Preto", "cep": "15061-800", "tipo": "casa em condominio", "valor": 50000, "data_aquisicao": "2025-03-11"},
+        ]
+    } 
+
+    assert response.get_json() == expected_response
