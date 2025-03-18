@@ -139,7 +139,7 @@ def get_imoveis_id(id):
             resp = {"imovel": imoveis}
             return resp, 200
         
-@app.route('/imoveis/<string:tipo>', methods=['GET']) #precisa passar o que queremos na rota, que nesse caso é o tipo do imovel
+@app.route('/imoveis/tipo/<string:tipo>', methods=['GET']) #precisa passar o que queremos na rota, que nesse caso é o tipo do imovel
 def get_imoveis_tipo(tipo):
 
     # Conecta o banco de dados
@@ -213,9 +213,9 @@ def atualiza_imovel(id, coluna, alteracao):
         # Verifica se a coluna existe no banco de dados
         cursor.execute("SHOW COLUMNS FROM imoveis.imoveis")
         columns = [column[0] for column in cursor.fetchall()]
-        if coluna not in columns:
-            resp = {"erro": f"Coluna '{coluna}' não encontrada no banco de dados"}
-            return resp, 400
+        # if coluna not in columns:
+        #     resp = {"erro": f"Coluna '{coluna}' não encontrada no banco de dados"}
+        #     return resp, 400
 
         # Atualiza o imóvel
         sql = f"UPDATE imoveis.imoveis SET {coluna} = %s WHERE id = %s"
@@ -228,7 +228,9 @@ def atualiza_imovel(id, coluna, alteracao):
 
         resp = {'mensagem': 'Imóvel atualizado com sucesso.'}
 
-@app.route('/imoveis/<string:cidade>', methods=['GET']) #precisa passar o que queremos na rota, que nesse caso é a cidade do imovel
+    return resp, 200
+
+@app.route('/imoveis/cidade/<string:cidade>', methods=['GET']) #precisa passar o que queremos na rota, que nesse caso é a cidade do imovel
 def get_imoveis_cidade(cidade):
 
     # Conecta o banco de dados
@@ -242,7 +244,7 @@ def get_imoveis_cidade(cidade):
     cursor = conn.cursor()
 
     # Executa a query para buscar o tipo do imovel
-    sql = f"SELECT * from imoveis where cidade = %s"
+    sql = f"SELECT * from imoveis.imoveis where cidade = %s"
     cursor.execute(sql, (cidade,))
 
     # Obtém os resultados da query
